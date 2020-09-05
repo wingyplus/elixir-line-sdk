@@ -1,29 +1,3 @@
-defmodule Tesla.Middleware.EncodeFormUrlEncoded do
-  @moduledoc """
-  Perform encode only form url encoded.
-  """
-  @behaviour Tesla.Middleware
-
-  @impl true
-  def call(env, next, opts)
-
-  # NOTE: Tesla will try to perform a middleware even the request perform
-  # with get method.
-  def call(%Tesla.Env{method: :get} = env, next, _opts),
-    do: Tesla.run(env, next)
-
-  def call(env, next, _opts) do
-    env
-    |> encode()
-    |> Tesla.run(next)
-  end
-
-  defp encode(env) do
-    env
-    |> Map.update!(:body, &URI.encode_query/1)
-  end
-end
-
 defmodule LINE.SocialAPI.OAuth do
   @moduledoc """
   Client API for OAuth of LINE Social API v2.1.
@@ -36,7 +10,7 @@ defmodule LINE.SocialAPI.OAuth do
 
   plug Tesla.Middleware.BaseUrl, "https://api.line.me"
   plug Tesla.Middleware.Headers, [{"content-type", "application/x-www-form-urlencoded"}]
-  plug Tesla.Middleware.EncodeFormUrlEncoded
+  plug Tesla.Middleware.EncodeFormUrlencoded
   plug Tesla.Middleware.DecodeJson, engine_opts: [keys: :atoms]
 
   @doc """

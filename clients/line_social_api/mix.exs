@@ -21,7 +21,9 @@ defmodule LINE.SocialAPI.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:tesla, "~> 1.3"},
+      # We're require Tesla.Middleware.EncodeFormUrlencoded which's not release
+      # it yet.
+      {:tesla, github: "teamon/tesla"},
       {:jason, "~> 1.2"},
       {:mint, "~> 1.1"},
       {:castore, "~> 0.1.7"}
